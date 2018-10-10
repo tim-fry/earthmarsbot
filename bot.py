@@ -8,23 +8,25 @@ with open('credentials.json') as f:
 def generate_message():
     m = ephem.Mars()
     m.compute()
+    lightseconds = 499.005
     milmiles = 92.955807;
 
-    text = "Mars is currently %.6f AU (%.1f million miles) from Earth" % (m.earth_distance, m.earth_distance*milmiles)
-    print text
-    return text
+    minutes = int(m.earth_distance*lightseconds) / 60
+    seconds = m.earth_distance*lightseconds % 60;
+
+    distance = "Mars is currently %.6f AU (%.1f million miles) from Earth." % (m.earth_distance, m.earth_distance*milmiles)
+    time = "It would take %d minutes, %05.2f seconds for a message to travel that distance." % (minutes, seconds)
+    return distance + " " + time
 
 def send_tweet(message):
     api = tweetpony.API(**credentials)
-    user = api.user
-    print "Hello, @%s!" % user.screen_name
 
     try:
         api.update_status(status = message)
     except tweetpony.APIError as err:
         print "Oops, something went wrong! Twitter returned error #%i and said: %s" % (err.code, err.description)
     else:
-        print "Yay! Your tweet has been sent!"
+        print "Yay! Tweeted: %s" % message
 
 def lambda_handler(_event_json, _context):
     # Tweet Message
