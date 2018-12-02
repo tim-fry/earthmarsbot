@@ -14,7 +14,7 @@ def generate_message():
     minutes = int(m.earth_distance*lightseconds) / 60
     seconds = m.earth_distance*lightseconds % 60;
 
-    distance = "Mars is currently %.6f AU (%.1f million miles) from Earth." % (m.earth_distance, m.earth_distance*milmiles)
+    distance = "#Mars is currently %.6f AU (%.1f million miles) from Earth." % (m.earth_distance, m.earth_distance*milmiles)
     time = "It would take %d minutes, %05.2f seconds for a message to travel that distance." % (minutes, seconds)
     return distance + " " + time
 
