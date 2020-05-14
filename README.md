@@ -13,5 +13,5 @@ because I find it fascinating how much a red dot in the sky moves relative to us
 This project uses (in no particular order):
 
 * [PyEphem](https://rhodesmill.org/pyephem/) for astronimcal calculations
-* [TweetPony](tweetpony) for sending tweets
+* [python-twitter](https://pypi.org/project/python-twitter/) for sending tweets
 * [Amazon AWS Lambda](https://aws.amazon.com/lambda/) for hosting, scheduling and execution

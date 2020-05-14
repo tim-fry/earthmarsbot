@@ -1,11 +1,11 @@
 import ephem
 import json
-import tweetpony
+import twitter
 
 with open('credentials.json') as f:
     credentials = json.loads(f.read())
 
-def generate_message():
+def generate_distance_message():
     m = ephem.Mars()
     m.compute()
     lightseconds = 499.005
@@ -19,15 +19,15 @@ def generate_message():
     return distance + " " + time
 
 def send_tweet(message):
-    api = tweetpony.API(**credentials)
+    api = twitter.Api(**credentials)
 
     try:
-        api.update_status(status = message)
-    except tweetpony.APIError as err:
-        print "Oops, something went wrong! Twitter returned error #%i and said: %s" % (err.code, err.description)
+        status = api.PostUpdate(message)
+    except TwitterError as err:
+        print("Oops, something went wrong! Twitter returned an error: %s" % (err.message))
     else:
-        print "Yay! Tweeted: %s" % message
+        print("Yay! Tweeted: %s" % status.text)
 
 def lambda_handler(_event_json, _context):
     # Tweet Message
-    send_tweet(generate_message())
+    send_tweet(generate_distance_message())
